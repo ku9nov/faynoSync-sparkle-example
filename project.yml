@@ -1,0 +1,29 @@
+name: faynosyncSparkleExample
+options:
+  bundleIdPrefix: com.faynosync
+  deploymentTarget:
+    macOS: "11.0"
+packages:
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    from: "2.6.0"
+targets:
+  faynosyncSparkleExample:
+    type: application
+    platform: macOS
+    sources:
+      - Sources
+    settings:
+      base:
+        INFOPLIST_FILE: Resources/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.faynosync.sparkle-example
+        PRODUCT_NAME: faynosyncSparkleExample
+        MARKETING_VERSION: "0.0.3"
+        CURRENT_PROJECT_VERSION: "3"
+        FAYNOSYNC_CHANNEL: nightly
+        CODE_SIGN_STYLE: Automatic
+        ENABLE_HARDENED_RUNTIME: YES
+        LD_RUNPATH_SEARCH_PATHS: "@executable_path/../Frameworks"
+        SWIFT_VERSION: "5.0"
+    dependencies:
+      - package: Sparkle
