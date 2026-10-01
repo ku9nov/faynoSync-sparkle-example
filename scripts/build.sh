@@ -16,6 +16,11 @@ case "$ARCH" in
 	*) echo "unknown ARCH: $ARCH (use arm64|amd64)" >&2; exit 1 ;;
 esac
 
+# Hardened runtime enforces library validation: an ad-hoc signed app (no DEVELOPER_ID)
+# then refuses to load the embedded Sparkle.framework ("different Team IDs").
+HARDENED_RUNTIME=YES
+[[ -z "$DEVELOPER_ID" ]] && HARDENED_RUNTIME=NO
+
 xcodegen generate
 
 xcodebuild \
@@ -25,6 +30,7 @@ xcodebuild \
 	-derivedDataPath "$BUILD_DIR/dd" \
 	${XCARCH:+ARCHS="$XCARCH" ONLY_ACTIVE_ARCH=NO} \
 	${CHANNEL:+FAYNOSYNC_CHANNEL="$CHANNEL"} \
+	ENABLE_HARDENED_RUNTIME="$HARDENED_RUNTIME" \
 	${DEVELOPER_ID:+CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY="$DEVELOPER_ID"} \
 	${DEVELOPMENT_TEAM:+DEVELOPMENT_TEAM="$DEVELOPMENT_TEAM"} \
 	build

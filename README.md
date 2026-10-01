@@ -24,13 +24,14 @@ tar -xf /tmp/sparkle.tar.xz -C /tmp bin
 cp /tmp/bin/generate_keys /tmp/bin/generate_appcast /tmp/bin/sign_update tools/
 ```
 
-`generate_keys` is used by `make keys`, `generate_appcast` by `make appcast`, and
-`sign_update` produces the `edSignature` for the faynoSync upload `signature` field.
+`generate_keys` is used by `make keys` and `generate_appcast` by `make appcast`. The
+`edSignature` lives inside the appcast, so the faynoSync upload needs no separate `signature` field.
 
 ### Config
 
 Copy `.env.example` to `.env` and set `DEVELOPER_ID`, `DEVELOPMENT_TEAM`, and `DOWNLOAD_URL_PREFIX`.
 When `DEVELOPER_ID` is set the build uses manual signing, so `DEVELOPMENT_TEAM` must match that identity's team ID.
+Without `DEVELOPER_ID` the app is ad-hoc signed and built with hardened runtime off, which is fine for local testing.
 App-level config (`SUFeedURL`, `SUPublicEDKey`, `FaynoSync*`) lives in `Resources/Info.plist`.
 
 ## Usage
